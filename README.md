@@ -7,5 +7,5 @@ An example of node proxy server
 To run the app use this command:
 
 ```
-node index.js
+npm start
 ```
