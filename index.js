@@ -39,6 +39,43 @@ async function getAsteroidsData(startDate, endDate) {
   }
 }
 
+function parseAsteroidsResponse(responseToParse) {
+  const newNearEarthObjects = {};
+
+  for (const [key, value] of Object.entries(
+    responseToParse["near_earth_objects"]
+  )) {
+    const newObjectsList = value.map((singleObject) => {
+      const diameterAverage =
+        (singleObject.estimated_diameter.meters.estimated_diameter_max +
+          singleObject.estimated_diameter.meters.estimated_diameter_min) /
+        2;
+
+      return {
+        id: singleObject.id,
+        name: singleObject.name,
+        diameter_meters: diameterAverage,
+        is_potentially_hazardous_asteroid:
+          singleObject.is_potentially_hazardous_asteroid,
+        close_approach_date_full:
+          singleObject.close_approach_data[0].close_approach_date_full,
+        relative_velocity_kps:
+          singleObject.close_approach_data[0].relative_velocity
+            .kilometers_per_second,
+      };
+    });
+
+    newNearEarthObjects[key] = newObjectsList;
+  }
+
+  const parsedResponse = {
+    ...responseToParse,
+    near_earth_objects: newNearEarthObjects,
+  };
+
+  return parsedResponse;
+}
+
 app.get("/", (_req, res) => {
   res.send("Welcome to meteors API!");
 });
@@ -48,7 +85,9 @@ app.get("/meteors", async (_req, res) => {
 
   const response = await getAsteroidsData(currentDate, fiveDaysAgo);
 
-  res.json({ data: response });
+  const parsedResponse = parseAsteroidsResponse(response);
+
+  res.json({ data: parsedResponse });
 });
 
 app.listen(PORT, () => {
