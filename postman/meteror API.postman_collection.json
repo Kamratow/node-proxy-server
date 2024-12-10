@@ -1,0 +1,29 @@
+{
+	"info": {
+		"_postman_id": "f3a9008c-bfc0-464e-8566-cad4933e198d",
+		"name": "meteror API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "36823149"
+	},
+	"item": [
+		{
+			"name": "meteor",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:4000/meteors",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"meteors"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
