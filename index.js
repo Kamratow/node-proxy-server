@@ -31,17 +31,25 @@ async function getAsteroidsData(startDate, endDate) {
     const response = await fetch(
       `${NEO_FEED_API_URL}?start_date=${startDate}&end_date=${endDate}&api_key=${NASA_API_KEY}`
     );
-    const parsedResponse = await response.json();
+    const unpackedResponse = await response.json();
 
-    console.log(parsedResponse);
+    return unpackedResponse;
   } catch (error) {
     console.error("Error fetching asteroids:", error);
   }
 }
 
-const { currentDate, fiveDaysAgo } = getAsteroidDates();
+app.get("/", (_req, res) => {
+  res.send("Welcome to meteors API!");
+});
 
-getAsteroidsData(currentDate, fiveDaysAgo);
+app.get("/meteors", async (_req, res) => {
+  const { currentDate, fiveDaysAgo } = getAsteroidDates();
+
+  const response = await getAsteroidsData(currentDate, fiveDaysAgo);
+
+  res.json({ data: response });
+});
 
 app.listen(PORT, () => {
   console.log(`Server is listening on port ${PORT}`);
