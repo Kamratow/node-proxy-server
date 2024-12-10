@@ -1,6 +1,9 @@
 require("dotenv").config();
+const express = require("express");
 
-console.log("Hello world");
+const app = express();
+
+const port = process.env.port || 4000;
 
 const NASA_API_KEY = process.env.NASA_API_KEY;
 
@@ -29,8 +32,6 @@ async function getAsteroidsData(startDate, endDate) {
       `${NEO_FEED_API_URL}?start_date=${startDate}&end_date=${endDate}&api_key=${NASA_API_KEY}`
     );
     const parsedResponse = await response.json();
-
-    console.log(parsedResponse.near_earth_objects);
   } catch (error) {
     console.error("Error fetching asteroids:", error);
   }
@@ -39,3 +40,7 @@ async function getAsteroidsData(startDate, endDate) {
 const { currentDate, fiveDaysAgo } = getAsteroidDates();
 
 getAsteroidsData(currentDate, fiveDaysAgo);
+
+app.listen(port, () => {
+  console.log(`Server is listening on port ${port}`);
+});
