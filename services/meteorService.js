@@ -2,6 +2,7 @@ const config = require("../config/config");
 
 const parseMeteorResponse = (responseToParse) => {
   const newNearEarthObjects = {};
+  let wereDangerousMeteors = false;
 
   for (const [key, value] of Object.entries(
     responseToParse["near_earth_objects"]
@@ -11,6 +12,13 @@ const parseMeteorResponse = (responseToParse) => {
         (singleObject.estimated_diameter.meters.estimated_diameter_max +
           singleObject.estimated_diameter.meters.estimated_diameter_min) /
         2;
+
+      if (
+        !wereDangerousMeteors &&
+        singleObject.is_potentially_hazardous_asteroid
+      ) {
+        wereDangerousMeteors = true;
+      }
 
       return {
         id: singleObject.id,
@@ -32,6 +40,7 @@ const parseMeteorResponse = (responseToParse) => {
   const parsedResponse = {
     ...responseToParse,
     near_earth_objects: newNearEarthObjects,
+    were_dangerous_meteors: wereDangerousMeteors,
   };
 
   return parsedResponse;
