@@ -12,14 +12,15 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:4000/meteors",
+					"raw": "http://localhost:4000/api/meteor",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
 					"port": "4000",
 					"path": [
-						"meteors"
+						"api",
+						"meteor"
 					]
 				}
 			},
