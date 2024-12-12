@@ -1,3 +1,6 @@
 node_modules
 .env
 .DS_store
+
+# personal notes and ideas about future features that would be worth implementing
+ProjectToDo.md
